@@ -47,7 +47,30 @@ trunk = {
         '0/2': ['only', '11', '30'],
         '0/4': ['del', '17']
     }
+# Вывод trunk v.1
 
+for intf in trunk.keys():
+    print('interface FastEthernet' + intf)
+    vlan = str(trunk[intf][1:]).strip("[]").replace("'", "")
+    for command in trunk_template:
+        if trunk[intf][0] == 'add':
+            if command.endswith('vlan'):
+                print(' {} add {}'.format(command, vlan))
+            else:
+                print(' {}'.format(command))
+        if trunk[intf][0] == 'only':
+            if command.endswith('vlan'):
+                print(' {} {}'.format(command, vlan))
+            else:
+                print(' {}'.format(command))
+        if trunk[intf][0] == 'del':
+            if command.endswith('vlan'):
+                print(' {} remove {}'.format(command, vlan))
+            else:
+                print(' {}'.format(command))
+
+#  Вывод access original
+'''
 for intf, vlan in access.items():
     print('interface FastEthernet' + intf)
     for command in access_template:
@@ -55,3 +78,4 @@ for intf, vlan in access.items():
             print(' {} {}'.format(command, vlan))
         else:
             print(' {}'.format(command))
+'''
