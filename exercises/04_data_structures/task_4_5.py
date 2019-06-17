@@ -18,3 +18,17 @@ vlan_1 = set(command1.split()[-1].split(','))
 vlan_2 = set(command2.split()[-1].split(','))
 
 print(list(sorted(vlan_1 & vlan_2)))
+
+# Все отлично
+
+# вариант решения
+
+command1 = 'switchport trunk allowed vlan 1,2,3,5,8'
+command2 = 'switchport trunk allowed vlan 1,3,8,9'
+
+vlans1 = command1.split()[-1].split(',')
+vlans2 = command2.split()[-1].split(',')
+
+#sorted всегда возвращает список, поэтому list можно не использовать
+intersection = sorted(set(vlans1) & set(vlans2))
+print(intersection)

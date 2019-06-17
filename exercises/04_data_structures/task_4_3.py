@@ -13,3 +13,5 @@ config = 'switchport trunk allowed vlan 1,3,10,20,30,100'
 list_vlan = config.split()[-1]
 list_vlan = list_vlan.split(',')
 print(list_vlan)
+
+# Все отлично
