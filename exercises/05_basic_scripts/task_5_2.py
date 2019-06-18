@@ -44,12 +44,13 @@ print(f'''Mask:
 {ip_mask[0]:08b}  {ip_mask[1]:08b}  {ip_mask[2]:08b}  {ip_mask[3]:08b}''')
 
 """
-# Output Network, v.2
 ip_template = '''
-Network v2:
-{0:<8}  {1:<8}  {2:<8}  {3:<8}
-{0:08b}  {1:08b}  {2:08b}  {3:08b}
+{0}:
+{1:<8}  {2:<8}  {3:<8}  {4:<8}
+{1:08b}  {2:08b}  {3:08b}  {4:08b}
 '''
 
-print(ip_template.format(ip[0], ip[1], ip[2], ip[3]))
+print(ip_template.format('Network', ip[0], ip[1], ip[2], ip[3]))
+print(ip_template.format('Mask', ip[0], ip[1], ip[2], ip[3]))
+
 """
