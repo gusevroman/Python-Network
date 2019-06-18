@@ -51,5 +51,5 @@ dev = input('Введите имя устройства: ')
 dev_parametr = list(london_co[dev].keys())
 dev_parametr = str(dev_parametr)[1:-1].replace("'", "")
 
-dev_val = input('Введите имя параметра (' + dev_parametr + '): ')
+dev_val = input('Введите имя параметра ({}): '. format(dev_parametr))
 print(london_co[dev][dev_val])
