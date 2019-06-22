@@ -13,3 +13,17 @@
 
 mac = ['aabb:cc80:7000', 'aabb:dd80:7340', 'aabb:ee80:7000', 'aabb:ff80:7000']
 
+mac_cisco = []
+
+# v.1
+for address in mac:
+    mac_cisco.append(address.replace(':', '.'))
+
+'''
+# v. 2
+for index in range(len(mac)):
+    mac_cisco.append(str(mac[index]).replace(':', '.'))
+'''
+
+print(mac_cisco)
+
