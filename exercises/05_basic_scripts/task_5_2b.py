@@ -40,3 +40,7 @@ ip_template = '''
 
 print(ip_template.format('Network:', ip_bin[0], ip_bin[1], ip_bin[2], ip_bin[3]))
 print(ip_template.format('Mask: \n' + mask, ip_mask[0], ip_mask[1], ip_mask[2], ip_mask[3]))
+
+
+# Все отлично
+

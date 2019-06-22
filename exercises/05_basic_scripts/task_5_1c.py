@@ -54,3 +54,14 @@ dev = input('Введите имя устройства: ')
 dev_val = input('Введите имя параметра (ios, model, vendor, location, ip): ')
 
 print(london_co[dev].get((dev_val), 'Такого параметра нет'))
+
+
+# Все отлично
+
+# вариант решения
+
+device = input('Введите имя устройства: ')
+params = ', '.join(london_co[device].keys())
+parameter = input('Введите имя параметра ({}): '.format(params))
+
+print(london_co[device].get(parameter, 'Такого параметра нет'))

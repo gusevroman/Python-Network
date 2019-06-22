@@ -53,3 +53,14 @@ dev_parametr = str(dev_parametr)[1:-1].replace("'", "")
 
 dev_val = input('Введите имя параметра ({}): '. format(dev_parametr))
 print(london_co[dev][dev_val])
+
+
+# Все отлично
+
+# вариант решения
+
+device = input('Введите имя устройства: ')
+params = ', '.join(london_co[device].keys())
+parameter = input(f'Введите имя параметра ({params}): ')
+
+print(london_co[device][parameter])

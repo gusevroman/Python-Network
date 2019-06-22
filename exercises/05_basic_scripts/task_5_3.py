@@ -70,3 +70,7 @@ vlan = input('Введите номер влан(ов): ')
 print('\n' + '-' * 50)
 print('interface {}'.format(interface))
 print('\n'.join(mode_dict[mode]).format(vlan))
+
+
+# Все отлично
+

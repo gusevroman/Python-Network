@@ -49,3 +49,6 @@ dev = input('Введите имя устройства: ')
 dev_val = input('Введите имя параметра: ')
 
 print(london_co[dev][dev_val])
+
+
+# Все отлично
