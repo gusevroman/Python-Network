@@ -27,3 +27,7 @@ for index in range(len(mac)):
 
 print(mac_cisco)
 
+
+
+# Все отлично
+

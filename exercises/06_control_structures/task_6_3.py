@@ -79,3 +79,43 @@ for intf, vlan in access.items():
         else:
             print(' {}'.format(command))
 '''
+
+# Все отлично
+
+# вариант решения
+
+for intf, value in trunk.items():
+    print(f'interface FastEthernet {intf}')
+    for command in trunk_template:
+        if command.endswith('allowed vlan'):
+            #так как некоторые вещи повторяются, они вынесены в переменные
+            action = value[0]
+            vlans = ','.join(value[1:])
+
+            if action == 'add':
+                print(f' {command} add {vlans}')
+            elif action == 'only':
+                print(f' {command} {vlans}')
+            elif action == 'del':
+                print(f' {command} remove {vlans}')
+        else:
+            print(' {}'.format(command))
+
+
+
+# Этот вариант использует словарь, вместо if/else
+trunk_actions = {'add': 'add',
+                 'del': 'remove',
+                 'only': ''}
+
+for intf, value in trunk.items():
+    print(f'interface FastEthernet {intf}')
+
+    for command in trunk_template:
+        if command.endswith('allowed vlan'):
+            action = value[0]
+            vlans = ','.join(value[1:])
+            print(f' {command} {trunk_actions[action]} {vlans}')
+        else:
+            print(f' {command}')
+
