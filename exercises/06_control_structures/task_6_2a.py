@@ -14,3 +14,29 @@
 Ограничение: Все задания надо выполнять используя только пройденные темы.
 
 '''
+
+input_ip_address = input('Input ip-address: ').split('.')
+
+if len(input_ip_address) != 4:
+    print('Неправильный ip-адрес - не состоит из 4 элементов разделенных точкой')
+else:
+    ip_address = []
+
+    for octet in input_ip_address:
+        if octet.isdigit() and int(octet) in range(256):
+            ip_address.append(int(octet)) # octets are integers
+        else:
+            print('Attention! Неправильный ip-адрес.')
+            break
+
+    if ip_address[0] in range(1, 224):
+        result = 'unicast'
+    elif ip_address[0] in range(224, 239):
+        result = 'multicast'
+    elif ip_address == [255, 255, 255, 255]:
+        result = 'local broadcast'
+    elif ip_address == [0, 0, 0, 0]:
+        result = 'unassigned'
+    else:
+        result = 'unused'
+    print(result)
