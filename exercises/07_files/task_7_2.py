@@ -1,3 +1,4 @@
+#!/home/vagrant/venv/pyneng-py3-7/bin/python3.7
 # -*- coding: utf-8 -*-
 '''
 Задание 7.2
@@ -12,3 +13,14 @@
 
 Ограничение: Все задания надо выполнять используя только пройденные темы.
 '''
+
+from sys import argv
+
+f = open(argv[1], 'r')
+for line in f:
+    if not line.startswith('!'):
+        print(line, end='')
+
+
+
+
