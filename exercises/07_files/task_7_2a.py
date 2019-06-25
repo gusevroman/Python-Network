@@ -1,3 +1,4 @@
+#!/home/vagrant/venv/pyneng-py3-7/bin/python3.7
 # -*- coding: utf-8 -*-
 '''
 Задание 7.2a
@@ -13,3 +14,12 @@
 '''
 
 ignore = ['duplex', 'alias', 'Current configuration']
+
+
+from sys import argv
+
+f = open(argv[1], 'r')
+print('-' * 50)
+for line in f:
+    if not line.startswith('!') and not (set(ignore) & set(line.split())):
+        print(line, end='')
