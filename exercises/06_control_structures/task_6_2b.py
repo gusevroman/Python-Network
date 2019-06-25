@@ -29,6 +29,7 @@ while not ip_correct:
         input_ip_address = input('Введите ip-address еще раз: ').split('.')
 
 # Классификация ip-адреса
+print('-' * 50, end='')
 if ip_address[0] in range(1, 224):
     result = 'unicast'
 elif ip_address[0] in range(224, 239):
@@ -39,6 +40,5 @@ elif ip_address == [0, 0, 0, 0]:
     result = 'unassigned'
 else:
     result = 'unused'
+print()
 print(result)
-
-
