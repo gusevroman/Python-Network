@@ -40,3 +40,76 @@ else:
     else:
         result = 'unused'
     print(result)
+
+
+# Все отлично
+
+# только, например, при таком адресе будет ошибка
+# потому что в списке ip_address не будет элементов
+'''
+Input ip-address: 500.1.1.1
+Attention! Неправильный ip-адрес.
+Traceback (most recent call last):
+  File "task_6_2a.py", line 32, in <module>
+    if ip_address[0] in range(1, 224):
+IndexError: list index out of range
+'''
+
+# вариант решения
+
+ip_address = input('Enter ip address: ')
+octets = ip_address.split('.')
+correct_ip = True
+
+if len(octets) != 4:
+    correct_ip = False
+else:
+    for octet in octets:
+        #тут второе условие int(octet) in range(256)
+        # проверяется только в том случае, если первое условие истина
+        #Если встретился хоть один октет с нарушением,
+        # дальше можно не смотреть
+        if not (octet.isdigit() and int(octet) in range(256)):
+            correct_ip = False
+            break
+
+if not correct_ip:
+    print('Incorrect IPv4 address')
+else:
+    octets_num = [int(i) for i in octets]
+
+    if octets_num[0] in range(1,224):
+        print('unicast')
+    elif octets_num[0] in range(224,240):
+        print('multicast')
+    elif set(octets_num) == {255}:
+        print('broadcast')
+    elif set(octets_num) == {0}:
+        print('unassigned')
+    else:
+        print('unused')
+
+
+####### Второй вариант
+
+ip = input('Введите IP-адрес в формате x.x.x.x: ')
+octets = ip.split('.')
+valid_ip = len(octets) == 4
+
+for i in octets:
+    valid_ip = i.isdigit() and 0 <= int(i) <= 255 and valid_ip
+
+if valid_ip:
+    if 1 <= int(octets[0]) <= 127:
+        print('unicast')
+    elif 224 <= int(octets[0]) <= 239:
+        print('multicast')
+    elif ip == '255.255.255.255':
+        print('local broadcast')
+    elif ip == '0.0.0.0':
+        print('unassigned')
+    else:
+        print('unused')
+else:
+    print('Неправильный IP-адрес')
+
