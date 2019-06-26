@@ -1,3 +1,4 @@
+#!/home/vagrant/venv/pyneng-py3-7/bin/python3.7
 # -*- coding: utf-8 -*-
 '''
 Задание 7.3
@@ -15,5 +16,12 @@
  300    0a1b.5c80.7000   Gi0/7
 
 Ограничение: Все задания надо выполнять используя только пройденные темы.
-
 '''
+
+
+with open('CAM_table.txt', 'r') as f:
+    for line in f:
+        if ' Gi' in line:
+            vlan, mac_address, _, intf = line.split()
+            print(f'{vlan:8} {mac_address:17} {intf:8}')
+
