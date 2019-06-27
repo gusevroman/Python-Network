@@ -27,3 +27,17 @@ for line in f:
 
 f.close()
 f_output.close()
+
+
+# Все отлично
+
+# вариант решения
+
+src_file, dst_file = argv[1], 'config_sw1_cleared.txt'
+
+#можно так открыть два файла
+with open(src_file) as src:
+    with open(dst_file, 'w') as dst:
+
+#или так
+with open(src_file) as src, open(dst_file, 'w') as dst:

@@ -33,3 +33,15 @@ with open('CAM_table.txt', 'r') as f:
        if not line.startswith('-') and not line.startswith('\n') and line.split()[0].isdigit():
            vlan, mac_address, _, intf = line.split()
            print(f'{vlan:7}{mac_address:17}{intf:8}')
+
+
+# Все отлично
+
+# вариант решения
+
+with open('CAM_table.txt', 'r') as conf:
+    for line in conf:
+        line = line.split()
+        if line and line[0].isdigit():
+            vlan, mac, _, interface = line
+            print(f'{vlan:9}{mac:20}{interface}')

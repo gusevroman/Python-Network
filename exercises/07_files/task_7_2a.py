@@ -23,3 +23,5 @@ print('-' * 50)
 for line in f:
     if not line.startswith('!') and not (set(ignore) & set(line.split())):
         print(line, end='')
+
+# Все отлично

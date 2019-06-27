@@ -31,3 +31,17 @@ for line in sorted(result):
         print(f'{line[0]:<6} {line[1][0]:17}{line[1][1]:8}')
 
 print('-' * 50)
+
+# Все отлично
+
+# вариант решения
+
+user_vlan = input('Enter VLAN number: ')
+
+with open('CAM_table.txt', 'r') as conf:
+    for line in conf:
+        line = line.split()
+        if line and line[0].isdigit() and line[0] == user_vlan:
+            vlan, mac, _, intf = line
+            print(f'{vlan:9}{mac:20}{intf}')
+
