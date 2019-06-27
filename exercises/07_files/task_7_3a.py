@@ -22,3 +22,18 @@
 Ограничение: Все задания надо выполнять используя только пройденные темы.
 
 '''
+
+result = []
+
+
+with open('CAM_table.txt', 'r') as f:
+    for line in f:
+        if not line.startswith('-') and not line.startswith('\n') and line.split()[0].isdigit():
+            vlan, mac_address, _, intf = line.split()
+            result.append([int(vlan), [mac_address, intf]])
+            # print(f'{vlan:7}{mac_address:17}{intf:8}')
+
+print('-' * 50)
+for line in sorted(result):
+    print(f'{line[0]:<6} {line[1][0]:17}{line[1][1]:8}')
+print('-' * 50)

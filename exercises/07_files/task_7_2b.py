@@ -1,3 +1,4 @@
+#!/home/vagrant/venv/pyneng-py3-7/bin/python3.7
 # -*- coding: utf-8 -*-
 '''
 Задание 7.2b
@@ -14,3 +15,15 @@
 '''
 
 ignore = ['duplex', 'alias', 'Current configuration']
+
+from sys import argv
+
+f = open(argv[1], 'r')
+f_output = open('config_sw1_cleared.txt', 'a')
+
+for line in f:
+    if not (set(ignore) & set(line.split())):
+        f_output.writelines(line)
+
+f.close()
+f_output.close()
