@@ -80,10 +80,5 @@ def generate_access_config(intf_vlan_mapping, access_template):
 
     return result
 
-
-
-
-# print(ip_template.format('OSPF', f[1], f[2], f[4], f[5], f[6]))
-
-# print(access_config)
+print('-' * 50)
 print(generate_access_config(access_config, access_mode_template))
