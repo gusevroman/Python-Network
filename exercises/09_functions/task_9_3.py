@@ -39,34 +39,15 @@ def get_int_vlan_map(config_filename):
             if 'FastEthernet' in line:
                 line = line.split()
                 intf = line[-1]
-            if 'access vlan' in line:
+            if 'access vlan' in line:   # формируем словарь access_mode_template
                 vlan = line.split()[-1]
                 access_mode_template[intf] = int(vlan)
-            if 'trunk allowed vlan' in line:
+            if 'trunk allowed vlan' in line:    # формируем словарь trunk_mode_template
                 vlan = line.split()[-1].split(',')
                 vlan = [int(vlan) for vlan in vlan]
-                # print('vlan ', vlan)
                 trunk_mode_template[intf] = vlan
 
     result = (access_mode_template, trunk_mode_template)
     return result
 
 print(get_int_vlan_map('config_sw1.txt'))
-
-
-
-'''
-interface FastEthernet0/2
- switchport mode access
- switchport access vlan 20
- duplex auto
-!         
-interface FastEthernet0/3
- switchport trunk encapsulation dot1q
- switchport trunk allowed vlan 100,300,400,500,600
- duplex auto
- switchport mode trunk
-'''
-
-
-
