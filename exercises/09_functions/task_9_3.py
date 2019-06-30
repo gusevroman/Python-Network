@@ -22,3 +22,32 @@
 Ограничение: Все задания надо выполнять используя только пройденные темы.
 '''
 
+
+def get_int_vlan_map(config_filename):
+    '''
+    Функция обрабатывает конфигурационный файл коммутатора и возвращает кортеж из двух словарей:
+    - access_mode_template
+    - trunk_mode_template
+    :param config_filename:
+    :return: result             # кортеж из двух словарей
+    '''
+    access_mode_template = {}
+    trunk_mode_template = {}
+
+    with open(config_filename) as f:
+        for line in f:
+            if 'FastEthernet' in line:
+                line = line.split()
+                intf = line[-1]
+            if 'access vlan' in line:   # формируем словарь access_mode_template
+                vlan = line.split()[-1]
+                access_mode_template[intf] = int(vlan)
+            if 'trunk allowed vlan' in line:    # формируем словарь trunk_mode_template
+                vlan = line.split()[-1].split(',')
+                vlan = [int(vlan) for vlan in vlan]
+                trunk_mode_template[intf] = vlan
+
+    result = (access_mode_template, trunk_mode_template)
+    return result
+
+print(get_int_vlan_map('config_sw1.txt'))

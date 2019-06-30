@@ -21,14 +21,8 @@
 
 Пример итогового списка (перевод строки после каждого элемента сделан для удобства чтения):
 [
-'interface FastEthernet0/12',
-'switchport mode access',
-'switchport access vlan 10',
-'switchport nonegotiate',
-'spanning-tree portfast',
-'spanning-tree bpduguard enable',
-'interface FastEthernet0/17',
-'switchport mode access',
+'interface FastEthernet0/12','switchport mode access','switchport access vlan 10','switchport nonegotiate',
+'spanning-tree portfast','spanning-tree bpduguard enable','interface FastEthernet0/17','switchport mode access',
 'switchport access vlan 150',
 'switchport nonegotiate',
 'spanning-tree portfast',
@@ -65,4 +59,26 @@ def generate_access_config(intf_vlan_mapping, access_template):
 
     Возвращает список всех портов в режиме access с конфигурацией на основе шаблона
     '''
+    result = []
 
+    for intf, vlan in intf_vlan_mapping.items():
+        result.append('interface ' + intf)
+        for command in access_template:
+            if command.endswith('access vlan'):
+                result.append('{} {}'.format(command, vlan))
+            else:
+                result.append(command)
+    '''
+    v.2
+    for intf, vlan in intf_vlan_mapping.items():
+        result.append('interface ' + intf)
+        result.append(access_template[0])
+        result.append(access_template[1] + ' ' + str(vlan))
+        for command in access_template[2:]:
+            result.append(command)
+    '''
+
+    return result
+
+# print('-' * 50)
+# print(generate_access_config(access_config, access_mode_template))
