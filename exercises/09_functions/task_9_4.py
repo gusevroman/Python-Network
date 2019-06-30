@@ -62,3 +62,21 @@ def convert_config_to_dict(config_filename):
 
 
 print(convert_config_to_dict('config_sw1.txt'))
+
+# Все отлично
+
+# вариант решения
+
+def convert_config_to_dict(config_filename):
+    config_dict = {}
+    with open(config_filename) as f:
+        for line in f:
+            line = line.rstrip()
+            if line and not (line.startswith('!') or ignore_command(line, ignore)):
+                if line[0].isalnum():
+                    section = line
+                    config_dict[section] = []
+                else:
+                    config_dict[section].append(line.strip())
+    return config_dict
+

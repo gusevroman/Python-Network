@@ -51,3 +51,7 @@ def get_int_vlan_map(config_filename):
     return result
 
 print(get_int_vlan_map('config_sw1.txt'))
+
+
+# Все отлично
+
