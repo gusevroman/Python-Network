@@ -9,7 +9,7 @@
 вывод команды show cdp neighbors.
 
 Функция должна возвращать словарь, который описывает соединения между устройствами.
-Структура словаря такая же, как в задании 11.1:
+Структура словаря такая же,; как в задании 11.1:
     {('R4', 'Fa0/1'): ('R5', 'Fa0/1'),
      ('R4', 'Fa0/2'): ('R6', 'Fa0/0')}
 
@@ -44,61 +44,27 @@ Cгенерировать топологию, которая соответст�
 '''
 
 from task_11_1 import parse_cdp_neighbors
+from draw_network_graph import draw_topology
 
 
 def create_network_map(filenames):
-    topology = {}
+    '''
+    Function creted dictionary connections between devices. With function parse_cdp_neighbors from module task_11_1
+    :param filenames:           # from some files command
+    :return: topology_dict      # topology dictionary
+    '''
+    topology_dict = {}
     for file in filenames:
         with open(file) as f:
-            sh_command = f.read()
-            #print(parse_cdp_neighbors(sh_command))
-            topology.update(parse_cdp_neighbors(sh_command))
-    print('topology: ', topology)
-    top_keys = topology.keys()
-    print('top keys: ', top_keys)
-    top_values = topology.values()
-    print('topology.values: ', top_values)
-    top_it = top_keys & top_values
-    print('top it: ', top_it)
-    for dic in top_keys:
-        if dic in topology[dic]:
-            print('dic: ', dic)
-            print('topology[dic].values() ', topology[dic].values())
-        #print('dic - - ', topology[dic])
-        #if topology[dic] in top_keys:
-            #del topology[dic]
-            print(topology[dic])
-    return 1
-
+            parse_command = f.read()
+            topology_command = parse_cdp_neighbors(parse_command)
+            for key, value in topology_command.items():
+                if value not in topology_dict.keys():   # chek for uniqueness
+                    topology_dict[key] = value          # append only unique key : value
+    return topology_dict
 
 files = ['sh_cdp_n_r1.txt', 'sh_cdp_n_r2.txt', 'sh_cdp_n_r3.txt', 'sh_cdp_n_sw1.txt']
 
-create_network_map(files)
-'''
-{('R1', 'Eth0/0'): ('SW1', 'Eth0/1'),
- ('R2', 'Eth0/0'): ('SW1', 'Eth0/2'), 
- ('R2', 'Eth0/1'): ('SW2', 'Eth0/11'), 
- ('R3', 'Eth0/0'): ('SW1', 'Eth0/3'),
- ('R3', 'Eth0/1'): ('R4', 'Eth0/0'), 
- ('R3', 'Eth0/2'): ('R5', 'Eth0/0'), 
- ('SW1', 'Eth0/1'): ('R1', 'Eth0/0'), 
- ('SW1', 'Eth0/2'): ('R2', 'Eth0/0'), 
- ('SW1', 'Eth0/3'): ('R3', 'Eth0/0'), 
- ('SW1', 'Eth0/5'): ('R6', 'Eth0/1')}
- 
- top keys:  dict_keys([('R1', 'Eth0/0'), ('R2', 'Eth0/0'), ('R2', 'Eth0/1'), ('R3', 'Eth0/0'), ('R3', 'Eth0/1'), ('R3', 'Eth0/2'), ('SW1', 'Eth0/1'), ('SW1', 'Eth0/2'), ('SW1', 'Eth0/3'), ('SW1', 'Eth0/5')])
-topology.values:  dict_values([('SW1', 'Eth0/1'), ('SW1', 'Eth0/2'), ('SW2', 'Eth0/11'), ('SW1', 'Eth0/3'), ('R4', 'Eth0/0'), ('R5', 'Eth0/0'), ('R1', 'Eth0/0'), ('R2', 'Eth0/0'), ('R3', 'Eth0/0'), ('R6', 'Eth0/1')])
-top it:  {('R2', 'Eth0/0'), ('SW1', 'Eth0/3'), ('SW1', 'Eth0/1'), ('SW1', 'Eth0/2'), ('R3', 'Eth0/0'), ('R1', 'Eth0/0')}
-
-    correct_return_value = {('R1', 'Eth0/0'): ('SW1', 'Eth0/1'),
-                            ('R2', 'Eth0/0'): ('SW1', 'Eth0/2'),
-                            ('R2', 'Eth0/1'): ('SW2', 'Eth0/11'),
-                            ('R3', 'Eth0/0'): ('SW1', 'Eth0/3'),
-                            ('R3', 'Eth0/1'): ('R4', 'Eth0/0'),
-                            ('R3', 'Eth0/2'): ('R5', 'Eth0/0'),
-                            ('R6', 'Eth0/1'): ('SW1', 'Eth0/5')}
-
-'''
-
-
+print(create_network_map(files))
+draw_topology(create_network_map(files))
 
