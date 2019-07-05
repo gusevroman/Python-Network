@@ -23,3 +23,21 @@ Reachable    Unreachable
 
 Для этого задания нет тестов
 '''
+
+from tabulate import tabulate
+
+
+def print_ip_table(list_of_reachable, list_of_unreachable):
+    '''
+    The function prints two of lists in table
+    :param list_of_reachable:
+    :param list_of_unreachable:
+    :return:
+    '''
+    return tabulate({'Reachable': list_of_reachable, 'Unreachable': list_of_unreachable}, headers='keys')
+
+
+list_of_reachable = ['10.1.1.1', '10.1.1.2']
+list_of_unreachable = ['10.1.1.7', '10.1.1.8', '10.1.1.9']
+
+print(print_ip_table(list_of_reachable, list_of_unreachable))
