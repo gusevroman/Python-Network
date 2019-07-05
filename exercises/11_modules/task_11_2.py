@@ -68,3 +68,7 @@ files = ['sh_cdp_n_r1.txt', 'sh_cdp_n_r2.txt', 'sh_cdp_n_r3.txt', 'sh_cdp_n_sw1.
 print(create_network_map(files))
 draw_topology(create_network_map(files))
 
+
+
+# Все отлично
+
