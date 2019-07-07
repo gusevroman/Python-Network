@@ -23,4 +23,29 @@ Ethernet0/1 соответствует список из двух кортеже
 диапазоны адресов и так далее, так как обрабатывается вывод команды, а не ввод пользователя.
 
 '''
+import re
 
+def get_ip_from_cfg(dev_cfg):
+    '''
+    The function edits a configuration the device
+    :return: result   # the dict of key: name device and tuples - ip-address, mask
+    '''
+    result = {}
+
+    regex = re.compile('interface (?P<device>\S+)'
+                       '| ip address +(?P<ip_address>\S+) +(?P<mask>\S+)')
+
+    with open(dev_cfg) as f:
+        for line in f:
+            match = re.search(regex, line)
+            if match:
+                if match.lastgroup == 'device':
+                    device = match.group(match.lastgroup)
+                    ip_list = []
+                elif device:
+                    ip_list.append(match.group('ip_address', 'mask'))
+                    result[device] = ip_list
+    return result
+
+dev_config = 'config_r2.txt'
+get_ip_from_cfg(dev_config)
