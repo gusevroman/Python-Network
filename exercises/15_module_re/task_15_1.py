@@ -22,3 +22,21 @@
 диапазоны адресов и так далее, так как обрабатывается вывод команды, а не ввод пользователя.
 
 '''
+import re
+
+def get_ip_from_cfg(dev_cfg):
+    '''
+    The function edits a configuration the device
+    :return: ip_mask_cfg    # the list of tuples - ip-address, mask
+    '''
+    ip_mask_cfg = []
+    regex = re.compile(' ip address +(?P<ip_address>\S+) +(?P<mask>\S+)')
+    with open(dev_cfg) as f:
+        for line in f.readlines():
+            match = regex.search(line)
+            if match:
+                ip_mask_cfg.append(match.groups())
+    return ip_mask_cfg
+
+dev_config = 'config_r1.txt'
+print(get_ip_from_cfg(dev_config))
