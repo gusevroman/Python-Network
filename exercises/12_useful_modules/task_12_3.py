@@ -41,3 +41,6 @@ list_of_reachable = ['10.1.1.1', '10.1.1.2']
 list_of_unreachable = ['10.1.1.7', '10.1.1.8', '10.1.1.9']
 
 print(print_ip_table(list_of_reachable, list_of_unreachable))
+
+# Все отлично
+

@@ -29,6 +29,11 @@ def ping_ip(ip_address):
         return True
     else:
         return False
+    # можно заменить
+    return reply.returncode == 0
+    # или так, чтобы было чуть более понятно
+    ip_reachable = reply.returncode == 0
+    return ip_reachable
 
 
 def ping_ip_addresses(ip_addresses):
@@ -73,3 +78,6 @@ list_of_ip = ['1.1.1.3', '8.8.8.8', '8.8.4.4', '8.8.7.1']
 
 print(ping_ip_addresses(list_of_ip))
 # print(ping_ip('8.8.8'))
+
+# Все отлично
+
