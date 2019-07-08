@@ -25,6 +25,7 @@ Ethernet0/1 соответствует список из двух кортеже
 '''
 import re
 
+
 def get_ip_from_cfg(dev_cfg):
     '''
     The function edits a configuration the device

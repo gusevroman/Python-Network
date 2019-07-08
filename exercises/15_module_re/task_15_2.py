@@ -21,3 +21,32 @@
 Проверить работу функции на примере файла sh_ip_int_br.txt.
 
 '''
+import re
+
+
+def parse_sh_ip_int_br(dev_cfg):
+    '''
+    The function edits command show ip int br
+    :param dev_cfg: file with output from command show ip int br
+    :return: dev_status: Interface, IP-Address,  Status, Protocol - The list of tuples:
+    '''
+    # regex = (r'^(\S+) +'
+    #          # r'([\d.]+|unassigned) +'
+    #          r'(\S+) +'
+    #          r'\w+ +\w+ +'
+    #          r'(up|down|administratively down) +'
+    #          r'(up|down)')
+
+    # regex = '(\S+) +(\S+) +.+ +(up|down) +(up|down)'
+
+    regex = '(\S+) +(\S+) +\w+ +\w+ +(up|down|administratively down) +(up|down)'
+    with open(dev_cfg) as f:
+        line = f.read()
+        match_iter = re.finditer(regex, line)
+        dev_status = []
+        for match in match_iter:
+            dev_status.append(match.groups())
+    return dev_status
+
+dev_config = 'sh_ip_int_br.txt'
+parse_sh_ip_int_br(dev_config)
