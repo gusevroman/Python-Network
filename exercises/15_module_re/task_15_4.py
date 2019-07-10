@@ -23,3 +23,32 @@ interface Loopback0
 Проверить работу функции на примере файла config_r1.txt.
 '''
 
+import re
+
+
+def get_ints_without_description(config_dev):
+    '''
+    The Function edits configurations and return list of names interfaces that hasn't descriptions
+    :param config_dev: file for edits, for example config_r1.txt
+    :return: list of names interfaces
+    '''
+    regex = re.compile(r'^interface (?P<device>\S+)'
+                       r'| ip address +(?P<ip_address>\S+) +(?P<mask>\S+)'
+                       r'| (?P<description>description) ')
+    result = []
+
+
+    with open(config_dev) as f:
+        for line in f.readlines():
+            match = re.search(regex, line)
+            if match:
+                if match.lastgroup == 'device':
+                    device = match.group(match.lastgroup)
+                    result.append(device)
+                elif device:
+                    description = match.group('description')
+                    if description:
+                        result.remove(device)
+    return result
+
+get_ints_without_description('config_r1.txt')
