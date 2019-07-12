@@ -25,3 +25,24 @@
 
 Ограничение: Все задания надо выполнять используя только пройденные темы.
 '''
+from task_15_2 import parse_sh_ip_int_br
+
+headers = ['interface', 'address', 'status', 'protocol']
+
+
+def convert_to_dict(headers, dev_status):
+    '''
+    The function is result the list of dictionaries with key from headers and values
+    :param headers: list of keys
+    :param dev_status:  is result of function parse_sh_ip_int_br from task_15_2
+    :return: result
+    '''
+    result = []
+    for line in dev_status:
+        dict_line = dict(zip(headers, line))
+        result.append(dict_line)
+    return result
+
+
+dev_status = parse_sh_ip_int_br('sh_ip_int_br.txt')
+convert_to_dict(headers, dev_status)

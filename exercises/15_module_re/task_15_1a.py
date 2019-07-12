@@ -22,3 +22,25 @@
 диапазоны адресов и так далее, так как обрабатывается вывод команды, а не ввод пользователя.
 
 '''
+import re
+
+def get_ip_from_cfg(dev_cfg):
+    '''
+    The function edits a configuration the device
+    :return: result   # the dict of key: name device and tuples - ip-address, mask
+    '''
+    result = {}
+    regex = ('interface (?P<device>\S+)'
+             '| ip address +(?P<ip_address>\S+) +(?P<mask>\S+)')
+    with open(dev_cfg) as f:
+        for line in f:
+            match = re.search(regex, line)
+            if match:
+                if match.lastgroup == 'device':
+                    device = match.group(match.lastgroup)
+                elif device:
+                    result[device] = match.group('ip_address', 'mask')
+    return result
+
+dev_config = 'config_r1.txt'
+get_ip_from_cfg(dev_config)

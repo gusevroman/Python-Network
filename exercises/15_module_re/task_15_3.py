@@ -29,6 +29,33 @@ object network LOCAL_10.1.9.5
 - перед строками "object network" не должны быть пробелы
 - перед остальными строками должен быть один пробел
 
-Во всех правилах для ASA интерфейсы будут одинаковыми (inside,outside).
+Во всех правилах для ASA интерфейсы будут оlдинаковыми (inside,outside).
 '''
+import re
 
+
+def convert_ios_nat_to_asa(nat_ios, nat_asa):
+    '''
+    The Function converts rules NAT from Cisco IOS into Cisco ASA
+    :param nat_ios: file with rules Cisco IOS, for example cisco_nat_config.txt
+    :param nat_asa: file with converted rules
+    :return:
+    '''
+    regex = re.compile(r'(?P<host>[\d.]+) '
+                      r'(?P<port>[\d.]+).+'
+                      r' (?P<ports>[\d.]+)')
+
+
+    with open(nat_ios) as src, open(nat_asa, 'w') as dest:
+        for line in src.readlines():
+            match = re.finditer(regex, line)
+            for m in match:
+                host, port, ports = m.groups()
+                line_dest = f'''
+object network LOCAL_{host}
+ host {host}
+ nat (inside,outside) static interface service tcp {port} {ports}'''
+                dest.write(line_dest)
+
+
+convert_ios_nat_to_asa('cisco_nat_config.txt', 'cisco_nat_asa.txt')
