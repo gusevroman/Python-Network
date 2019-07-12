@@ -50,3 +50,7 @@ def get_ip_from_cfg(dev_cfg):
 
 dev_config = 'config_r2.txt'
 get_ip_from_cfg(dev_config)
+
+
+# Все отлично
+

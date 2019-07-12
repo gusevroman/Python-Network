@@ -32,6 +32,10 @@ def get_ip_from_cfg(dev_cfg):
     ip_mask_cfg = []
     regex = re.compile(' ip address +(?P<ip_address>\S+) +(?P<mask>\S+)')
     with open(dev_cfg) as f:
+        # тут лучше делать так (тогда файл будет читаться построчно)
+        #for line in f:
+        # тут все содержимое выгружается в список
+        # это не страшно на небольших файлах, но надо осторожно с большими
         for line in f.readlines():
             match = regex.search(line)
             if match:
@@ -40,3 +44,14 @@ def get_ip_from_cfg(dev_cfg):
 
 dev_config = 'config_r1.txt'
 print(get_ip_from_cfg(dev_config))
+
+# Все отлично
+
+# вариант решения
+
+def get_ip_from_cfg(config):
+    regex = r'ip address (\S+) (\S+)'
+    with open(config) as f:
+        result = [m.groups() for m in re.finditer(regex, f.read())]
+    return result
+

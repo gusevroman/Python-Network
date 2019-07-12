@@ -52,3 +52,53 @@ def get_ints_without_description(config_dev):
     return result
 
 get_ints_without_description('config_r1.txt')
+
+# Все отлично
+
+# вариант решения
+
+
+# в этом варианте все посторено на том, что регулярки в которых стоит |,
+# матчатся до первого совпадения
+# если на интерфейсе было описание, проматчится первая часть, если нет - вторая
+def get_ints_without_description(file_name):
+    regex = ('interface \S+\n description (?P<desc>.+)\n'
+             '|interface (?P<intf>\w+\S+)\n')
+    with open (file_name) as f:
+        intf_without_desc = []
+        for m in re.finditer(regex, f.read()):
+            if not m.group('desc'):
+                intf_without_desc.append(m.group('intf'))
+    return intf_without_desc
+
+
+# тут мы считываем интерфейсы секциями и проверяем в каждой секции есть ли слово description
+def get_ints_without_description(cfg_filename):
+    regex = r'interface (?P<intf>\S+)\n( .*\n)*'
+    with open(cfg_filename) as f:
+        intf_without_desc = []
+        intf_cfg = re.finditer(regex, f.read())
+        for match in intf_cfg:
+            if not 'description' in match.group():
+                intf_without_desc.append(match.group('intf'))
+    return intf_without_desc
+
+
+# те же варианты с генератором списка
+def get_ints_without_description(file_name):
+    regex = ('interface \S+\n description (?P<desc>.+)\n'
+             '|interface (?P<intf>\w+\S+)\n')
+    with open (file_name) as f:
+        intf_without_desc = [m.group('intf')
+                             for m in re.finditer(regex, f.read())
+                             if not m.group('desc')]
+    return intf_without_desc
+
+def get_ints_without_description(cfg_filename):
+    regex = r'interface (?P<intf>\S+)\n( .*\n)*'
+    with open(cfg_filename) as f:
+        intf_without_desc = [match.group('intf')
+                             for match in re.finditer(regex, f.read())
+                             if not 'description' in match.group()]
+    return intf_without_desc
+

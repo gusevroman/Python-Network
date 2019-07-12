@@ -46,3 +46,12 @@ def convert_to_dict(headers, dev_status):
 
 dev_status = parse_sh_ip_int_br('sh_ip_int_br.txt')
 convert_to_dict(headers, dev_status)
+
+
+# Все отлично
+
+# вариант решения
+
+def convert_to_dict(headers, sh_list):
+    return [dict(zip(headers, i)) for i in sh_list]
+

@@ -44,3 +44,17 @@ def get_ip_from_cfg(dev_cfg):
 
 dev_config = 'config_r1.txt'
 get_ip_from_cfg(dev_config)
+
+# Все отлично
+
+# вариант решения
+
+def get_ip_from_cfg(config):
+    with open(config) as f:
+        match = re.finditer(r'interface (?P<intf>\S+)\n'
+                            r'( .*\n)*'
+                            r' ip address (?P<ip>\S+) (?P<mask>\S+)', f.read())
+
+    result = {m.group('intf'): m.group('ip','mask') for m in match}
+    return result
+
