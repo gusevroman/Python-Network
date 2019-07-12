@@ -40,8 +40,63 @@
 '''
 
 import glob
+import re
+import csv
 
 sh_version_files = glob.glob('sh_vers*')
-#print(sh_version_files)
+# print(sh_version_files)
 
 headers = ['hostname', 'ios', 'image', 'uptime']
+
+
+def parse_sh_version(sh_version):
+    '''
+    The function parsing string using regular expressions and returns tuple consisting of 3 elements.
+    :param sh_version: One string from output - the command sh version.(not filename)
+    :return: tuple - (ios, image, uptime)
+    '''
+    regex = (r'Cisco IOS Software, .+Version (?P<ios>\S+),'
+             r'|System image file is "(?P<image>\S+)"'
+             r'|uptime is (?P<uptime>.+)')
+    result = []
+    match_iter = re.finditer(regex, sh_version)
+    for match in match_iter:
+        if match.lastgroup == 'ios':
+            ios = match.group(match.lastgroup)
+        if match.lastgroup == 'uptime':
+            uptime = match.group(match.lastgroup)
+        if match.lastgroup == 'image':
+            image = match.group(match.lastgroup)
+            result.append(ios)
+            result.append(image)
+            result.append(uptime)
+    return tuple(result)
+
+
+def write_inventory_to_csv(sh_version_files, csv_filename):
+    '''
+    The function edits information from files in list.
+    :param sh_version_files:
+    :param csv_filename:
+    :return: write info to file routers_inventory.csv with columns: hostname, ios, image, uptime.
+    '''
+    regex = r'sh_version_(?P<hostname>\S+)\.'
+    result = []
+    result.append(headers)
+
+    for file in sh_version_files:
+        with open(file) as f:
+            hostnames = []
+            sh_version = f.read()
+            match = re.search(regex, file)
+            hostnames.append(match.group('hostname'))
+            hostnames.extend(list(parse_sh_version(sh_version)))
+            result.append(hostnames)
+    with open(csv_filename, 'w') as dest:
+        writer = csv.writer(dest)
+        for row in result:
+            writer.writerow(row)
+
+
+csv_filename = 'routers_inventory.csv'
+write_inventory_to_csv(sh_version_files, csv_filename)
