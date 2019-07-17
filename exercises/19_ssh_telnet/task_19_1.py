@@ -29,7 +29,7 @@ def send_show_command(device, command):
     :param command:
     :return: - String with command.
     '''
-    print('connection to device {}'.format(device['ip']))
+    print('\nconnection to device {}'.format(device['ip']))
     with ConnectHandler(**device) as ssh:
         ssh.enable()
         result = ssh.send_command(command)
