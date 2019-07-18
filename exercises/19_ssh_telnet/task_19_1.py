@@ -42,3 +42,6 @@ if __name__ == "__main__":
         data = yaml.safe_load(f)
         for device in data:
             send_show_command(device, command)
+
+# Все отлично
+
