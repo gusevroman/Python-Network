@@ -15,5 +15,30 @@
 Скрипт должен отправлять команду command на все устройства из файла devices.yaml с помощью функции send_show_command.
 
 '''
+import yaml
+from netmiko import ConnectHandler
+
 
 command = 'sh ip int br'
+
+
+def send_show_command(device, command):
+    '''
+    Function connects to the device by ssh and runs command.
+    :param device: It's a dict with parameters of connection.
+    :param command:
+    :return: - String with command.
+    '''
+    print('\nconnection to device {}'.format(device['ip']))
+    with ConnectHandler(**device) as ssh:
+        ssh.enable()
+        result = ssh.send_command(command)
+        print(result)
+    return result
+
+
+if __name__ == "__main__":
+    with open('devices.yaml') as f:
+        data = yaml.safe_load(f)
+        for device in data:
+            send_show_command(device, command)
