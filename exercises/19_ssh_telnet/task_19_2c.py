@@ -107,3 +107,40 @@ if __name__ == "__main__":
         data = yaml.safe_load(f)
         for dev in data:
             pprint(send_config_commands(dev, commands))
+
+# Все отлично
+
+# аналогичный вариант решения с небольшими отличиями
+
+def send_config_commands(device, config_commands, verbose=True):
+    good_commands = {}
+    bad_commands = {}
+    regex = '% (?P<errmsg>.+)'
+
+    if verbose: print('Подключаюсь к {}...'.format(device['ip']))
+    with ConnectHandler(**device) as ssh:
+        ssh.enable()
+        for command in config_commands:
+            result = ssh.send_config_set(command, exit_config_mode=False)
+            error_in_result = re.search(regex, result)
+            if error_in_result:
+                message = 'Команда "{}" выполнилась с ошибкой "{}" на устройстве {}'
+                print(message.format(
+                    command, error_in_result.group('errmsg'), ssh.ip))
+                bad_commands[command] = result
+                decision = input('Продолжать выполнять команды? [y]/n: ')
+                if decision in ('n', 'no'):
+                    break
+            else:
+                good_commands[command] = result
+            ssh.exit_config_mode()
+    return good_commands, bad_commands
+
+
+if __name__ == "__main__":
+    with open('devices.yaml') as f:
+        devices = yaml.safe_load(f)
+
+    for dev in devices:
+        print(send_config_commands(dev, commands))
+

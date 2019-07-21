@@ -61,3 +61,14 @@ if __name__ == "__main__":
         data = yaml.safe_load(f)
         for device in data:
             send_commands(device, show=command, config=commands)
+
+# Все отлично
+
+# в таких случаях лучше использовать None, а не False
+# потому что False ставят в случаях, когда нужен флаг со значениями False/True
+def send_commands(device, config=None, show=None):
+    if show:
+        return send_show_command(device, show)
+    elif config:
+        return send_config_commands(device, config)
+

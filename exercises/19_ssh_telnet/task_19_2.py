@@ -63,7 +63,6 @@ def send_config_commands(device, config_commands):
     with ConnectHandler(**device) as ssh:
         ssh.enable()
         result = ssh.send_config_set(config_commands)
-        print(result)
 
     return result
 
@@ -72,4 +71,8 @@ if __name__ == "__main__":
     with open('devices.yaml') as f:
         data = yaml.safe_load(f)
         for device in data:
-            send_config_commands(device, commands)
+            # вместо print внутри функции, можно сделать print тут
+            print(send_config_commands(device, commands))
+
+# Все отлично
+
