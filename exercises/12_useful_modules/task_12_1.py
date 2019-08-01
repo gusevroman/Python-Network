@@ -25,10 +25,11 @@ def ping_ip(ip_address):
     :return:
     '''
     reply = subprocess.run(['ping', '-c', '3', '-n', ip_address])
-    if reply.returncode == 0:
-        return True
-    else:
-        return False
+    return reply.returncode == 0
+    # if reply.returncode == 0:
+    #     return True
+    # else:
+    #     return False
 
 
 def ping_ip_addresses(ip_addresses):
@@ -71,5 +72,6 @@ def ping_ip_addresses(ip_addresses):
 
 list_of_ip = ['1.1.1.3', '8.8.8.8', '8.8.4.4', '8.8.7.1']
 
-print(ping_ip_addresses(list_of_ip))
+if __name__ == '__main__':
+    print(ping_ip_addresses(list_of_ip))
 # print(ping_ip('8.8.8'))
