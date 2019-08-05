@@ -2,7 +2,8 @@
 '''
 Задание 22.2
 
-Сделать шаблон TextFSM для обработки вывода sh ip dhcp snooping binding и записать его в файл templates/sh_ip_dhcp_snooping.template
+Сделать шаблон TextFSM для обработки вывода sh ip dhcp snooping binding и записать его в файл
+templates/sh_ip_dhcp_snooping.template
 
 Вывод команды находится в файле output/sh_ip_dhcp_snooping.txt.
 
@@ -14,3 +15,11 @@
 
 Проверить работу шаблона с помощью функции parse_command_output из задания 22.1.
 '''
+from task_22_1 import parse_command_output
+
+
+if __name__ == '__main__':
+    with open("output/sh_ip_dhcp_snooping.txt") as f:
+        command_output = f.read()
+    template_command = 'templates/sh_ip_dhcp_snooping.template'
+    print(parse_command_output(template_command, command_output))
