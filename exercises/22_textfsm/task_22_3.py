@@ -65,3 +65,15 @@ if __name__ == '__main__':
         command_output = f.read()
     attributes = {'Command': 'show ip int br', 'Vendor': 'cisco_ios'}
     pprint(parse_command_dynamic(command_output, attributes))
+
+
+# Все отлично
+
+# вариант решения
+
+def parse_command_dynamic(command_output, attributes_dict,
+                          index_file='index', templ_path='templates'):
+
+    cli_table = clitable.CliTable(index_file, templ_path)
+    cli_table.ParseCmd(command_output, attributes_dict)
+    return [dict(zip(cli_table.header, row)) for row in cli_table]

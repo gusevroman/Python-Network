@@ -23,3 +23,6 @@ if __name__ == '__main__':
         command_output = f.read()
     template_command = 'templates/sh_ip_dhcp_snooping.template'
     print(parse_command_output(template_command, command_output))
+
+
+# Все отлично

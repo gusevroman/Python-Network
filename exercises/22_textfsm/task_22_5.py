@@ -48,3 +48,6 @@ if __name__ == '__main__':
         start_time_all = datetime.now()
         pprint(send_and_parse_command_parallel(devices, send_command, templates_path='templates', limit=2))
         print('All time of running all commands in threads: ... ', datetime.now() - start_time_all)
+
+# Все отлично
+

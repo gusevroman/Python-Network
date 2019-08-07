@@ -18,7 +18,7 @@
 
 Проверить работу функции на примере вывода команды sh ip int br и устройствах из devices.yaml.
 '''
-from textfsm import clitable
+import clitable
 from pprint import pprint
 from datetime import datetime
 import yaml
@@ -97,3 +97,57 @@ if __name__ == '__main__':
         for device in devices:
             send_and_parse_show_command(device, send_command)
     print('ALL time of running all command: ', datetime.now() - start_time, end='\n\n')
+
+
+# Все отлично
+
+# вариант решения
+
+import os
+from pprint import pprint
+
+from netmiko import ConnectHandler
+import yaml
+
+
+
+def send_and_parse_show_command(device_dict, command, templates_path):
+    if 'NET_TEXTFSM' not in os.environ:
+        os.environ['NET_TEXTFSM'] = templates_path
+    with ConnectHandler(**device_dict) as ssh:
+        ssh.enable()
+        output = ssh.send_command(command, use_textfsm=True)
+    return output
+
+
+if __name__ == "__main__":
+    full_pth = os.path.join(os.getcwd(), 'templates')
+    with open('devices.yaml') as f:
+        devices = yaml.load(f, Loader=yaml.FullLoader)
+    for dev in devices:
+        result = send_and_parse_show_command(dev, 'sh ip int br',
+                                             templates_path=full_pth)
+        pprint(result, width=120)
+
+########## Второй вариант без использования use_textfsm в netmiko
+from task_22_3 import parse_command_dynamic
+
+
+def send_and_parse_show_command(device_dict, command, templates_path):
+    attributes = {'Command': command, 'Vendor': device_dict['device_type']}
+    with ConnectHandler(**device_dict) as ssh:
+        ssh.enable()
+        output = ssh.send_command(command)
+        parsed_data = parse_command_dynamic(output, attributes,
+                                            templ_path=templates_path)
+    return parsed_data
+
+
+if __name__ == "__main__":
+    full_pth = os.path.join(os.getcwd(), 'templates')
+    with open('devices.yaml') as f:
+        devices = yaml.load(f, Loader=yaml.FullLoader)
+    for dev in devices:
+        result = send_and_parse_show_command(dev, 'sh ip int br',
+                                             templates_path=full_pth)
+        pprint(result, width=120)

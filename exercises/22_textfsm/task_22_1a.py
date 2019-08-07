@@ -41,3 +41,14 @@ if __name__ == '__main__':
         sh_ip_int_br = f.read()
     template_command = 'templates/sh_ip_int_br.template'
     print(parse_command_output(template_command, sh_ip_int_br))
+
+# Все отлично
+
+# вариант решения
+
+def parse_output_to_dict(template, command_output):
+    with open(template) as tmpl:
+        parser = textfsm.TextFSM(tmpl)
+        header = parser.header
+        result = parser.ParseText(command_output)
+    return [dict(zip(parser.header, line)) for line in result]
