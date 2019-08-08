@@ -63,7 +63,7 @@ def send_show(device, command):
 
 def send_show_command_to_devices(devices, command, filename, limit=3):
     """
-    The function sends command show to device in parallel threads. Than write results into file.
+    The function sends command show to device in parallel threads. Then write results into file.
     :param devices: list of dictionaries with parameters of connections to devices
     :param command: command (ex. show)
     :param filename: name of file where to write output of all commands
