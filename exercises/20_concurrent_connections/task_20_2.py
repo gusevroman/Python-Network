@@ -58,7 +58,7 @@ def send_show(device, command):
         host_name = ssh.find_prompt()
         result = ssh.send_command(command)
         logging.info(received_msg.format(datetime.now().time(), ip))
-        return host_name, result
+        return host_name, command, result
 
 
 def send_show_command_to_devices(devices, command, filename, limit=3):
@@ -74,8 +74,8 @@ def send_show_command_to_devices(devices, command, filename, limit=3):
         with ThreadPoolExecutor(max_workers=limit) as executor:
             result = executor.map(send_show, devices, repeat(command))
             for device, output in zip(devices, result):
-                host_name, command_output = output
-                dest.write(host_name + command+'\n')
+                host_name, command_send, command_output = output
+                dest.write(host_name + command_send+'\n')
                 dest.write(command_output + '\n')
 
 
