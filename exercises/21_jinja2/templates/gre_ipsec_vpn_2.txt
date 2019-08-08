@@ -1,0 +1,5 @@
+interface Tunnel {{ tun_num }}
+ ip address {{ tun_ip_2 }}
+ tunnel source {{ wan_ip_2 }}
+ tunnel destination {{ wan_ip_1 }}
+ tunnel protection ipsec profile GRE
