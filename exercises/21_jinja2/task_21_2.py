@@ -32,3 +32,6 @@ from task_21_1 import generate_config
 if __name__ == '__main__':
     router = yaml.safe_load(open('data_files/router_info.yml'))
     generate_config('templates/cisco_router_base.txt', router)
+
+# Все отлично
+

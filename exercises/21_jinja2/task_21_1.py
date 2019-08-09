@@ -44,3 +44,5 @@ def generate_config(template, data_dict):
 if __name__ == '__main__':
     router = yaml.safe_load(open('data_files/for.yml'))
     generate_config('templates/for.txt', router)
+
+# Все отлично

@@ -40,4 +40,44 @@ from task_21_1 import generate_config
 
 if __name__ == '__main__':
     data = yaml.safe_load(open('data_files/ospf.yml'))
-    generate_config('templates/ospf.txt', data)
+    print(generate_config('templates/ospf.txt', data))
+
+# не совсем правильный шаблон, так как у тебя команды из разных режимов смешались
+'''
+router ospf 10
+ router-id 10.0.0.1
+ auto-cost reference-bandwidth 20000
+ network 10.255.0.1 0.0.0.0 area 0
+ interface Fa0/1 ### после этой строки команды идут в режиме interface, а команда network и passive-interface должны быть в режиме router ospf
+  ip ospf hello-interval 1
+ network 10.255.1.1 0.0.0.0 area 0
+ interface Fa0/1.100
+  ip ospf hello-interval 1
+ network 10.255.2.1 0.0.0.0 area 0
+ interface Fa0/1.200
+  ip ospf hello-interval 1
+ network 10.0.10.1 0.0.0.0 area 2
+  passive-interface Fa0/0.10
+ network 10.0.20.1 0.0.0.0 area 2
+  passive-interface Fa0/0.20
+
+'''
+
+# вариант решения
+
+'''
+router ospf {{ process }}
+ router-id  {{ router_id }}
+ auto-cost reference-bandwidth {{ ref_bw }}
+{% for intf in ospf_intf %}
+ network {{ intf.ip}} 0.0.0.0 area {{ intf.area }}
+{% if intf.passive %}
+ passive-interface {{ intf.name }}
+{% endif %}
+{% endfor %}
+
+{% for intf in ospf_intf if not intf.passive %}
+interface {{ intf.name }}
+ ip ospf hello-interval 1
+{% endfor %}
+'''

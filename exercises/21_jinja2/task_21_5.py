@@ -49,3 +49,6 @@ def create_vpn_config(template1, template2, data_dict):
 
 if __name__ == '__main__':
     create_vpn_config('templates/gre_ipsec_vpn_1.txt', 'templates/gre_ipsec_vpn_2.txt', data)
+
+# Все отлично
+

@@ -33,3 +33,6 @@ from task_21_1 import generate_config
 if __name__ == '__main__':
     vlan = yaml.safe_load(open('data_files/add_vlan_to_switch.yaml'))
     generate_config('templates/add_vlan_to_switch.txt', vlan)
+
+# Все отлично
+
