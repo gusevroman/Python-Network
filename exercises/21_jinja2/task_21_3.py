@@ -35,3 +35,9 @@
 
 
 '''
+import yaml
+from task_21_1 import generate_config
+
+if __name__ == '__main__':
+    data = yaml.safe_load(open('data_files/ospf.yml'))
+    generate_config('templates/ospf.txt', data)
