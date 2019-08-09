@@ -61,3 +61,5 @@ if __name__ == '__main__':
 #     with ThreadPoolExecutor(max_workers=3) as executor:
 #         executor.map(ping_ip_addresses(list_of_ips))
 #     print(ping_ip_addresses(list_of_ips))
+
+# Все отлично
