@@ -29,6 +29,7 @@ Out[3]:
 
 
 '''
+from pprint import pprint
 
 topology_example = {('R1', 'Eth0/0'): ('SW1', 'Eth0/1'),
                     ('R2', 'Eth0/0'): ('SW1', 'Eth0/2'),
@@ -41,3 +42,14 @@ topology_example = {('R1', 'Eth0/0'): ('SW1', 'Eth0/1'),
                     ('SW1', 'Eth0/3'): ('R3', 'Eth0/0')}
 
 
+class Topology:
+    def __init__(self, raw_topology):
+        topology = {}
+        for l_device, r_device in raw_topology.items():
+            if r_device not in topology:
+                topology[l_device] = r_device
+        self.topology = topology
+
+
+top = Topology(topology_example)
+pprint(top.topology)
