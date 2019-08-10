@@ -2,7 +2,8 @@
 '''
 Задание 21.5a
 
-Создать функцию configure_vpn, которая использует шаблоны из задания 21.5 для настройки VPN на маршрутизаторах на основе данных в словаре data.
+Создать функцию configure_vpn, которая использует шаблоны из задания 21.5 для настройки VPN на маршрутизаторах на
+основе данных в словаре data.
 
 Параметры функции:
 * src_device_params - словарь с параметрами подключения к устройству
@@ -26,6 +27,7 @@
 
 Для этого задания нет теста!
 '''
+from task_21_1 import generate_config
 
 data = {
     'tun_num': None,
@@ -34,4 +36,22 @@ data = {
     'tun_ip_1': '10.0.1.1 255.255.255.252',
     'tun_ip_2': '10.0.1.2 255.255.255.252'
 }
+
+
+def configure_vpn(src_device_params, dst_device_params, src_template, dst_template, vpn_data_dict):
+    """
+    The function uses templates to generate a VPN configuration based on data in vpn_data_dict.
+    :param src_device_params: source dictionary with parameters of connection
+    :param dst_device_params: destination dictionary with parameters of connection
+    :param src_template: name of the template file which creates the configuration for one side of the tunnel.
+    :param dst_template: name of the template file which creates the configuration for second side of the tunnel.
+    :param vpn_data_dict: dictionary with values to be substituted into templates
+    :return: output of commands from two routers
+    """
+
+    return generate_config(template1, data_dict), generate_config(template2, data_dict)
+
+
+if __name__ == '__main__':
+    create_vpn_config('templates/gre_ipsec_vpn_1.txt', 'templates/gre_ipsec_vpn_2.txt', data)
 
