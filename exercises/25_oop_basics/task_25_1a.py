@@ -10,10 +10,7 @@
 
 При этом метод __init__ должен выглядеть таким образом:
 '''
-
-class Topology:
-    def __init__(self, topology_dict):
-        self.topology = self._normalize(topology_dict)
+from pprint import pprint
 
 
 topology_example = {('R1', 'Eth0/0'): ('SW1', 'Eth0/1'),
@@ -26,3 +23,19 @@ topology_example = {('R1', 'Eth0/0'): ('SW1', 'Eth0/1'),
                     ('SW1', 'Eth0/2'): ('R2', 'Eth0/0'),
                     ('SW1', 'Eth0/3'): ('R3', 'Eth0/0')}
 
+
+class Topology:
+    def __init__(self, topology_dict):
+        self.topology = self._normalize(topology_dict)
+
+    def _normalize(self, topology_dict):
+        topology = {}
+        for l_device, r_device in topology_dict.items():
+            if r_device not in topology:
+                topology[l_device] = r_device
+        return topology
+
+
+if __name__ == '__main__':
+    top = Topology(topology_example)
+    pprint(top.topology)
