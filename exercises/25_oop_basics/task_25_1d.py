@@ -104,4 +104,3 @@ if __name__ == '__main__':
     pprint(top.topology)
     top.add_link(('SW1', 'Eth0/1'), ('R19', 'Eth0/0'))
     pprint(top.topology)
-
