@@ -40,4 +40,4 @@ if __name__ == '__main__':
     with open("output/sh_ip_int_br.txt") as f:
         sh_ip_int_br = f.read()
     template_command = 'templates/sh_ip_int_br.template'
-    print(parse_command_output(template_command, sh_ip_int_br))
+    print(parse_output_to_dict(template_command, sh_ip_int_br))
