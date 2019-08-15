@@ -93,5 +93,4 @@ class CiscoTelnet:
 if __name__ == '__main__':
     r1 = CiscoTelnet(**r1_params)
     print(r1.send_show_command('sh ip int br'))
-    # print(r1.config_mode())
     # r1.close()
