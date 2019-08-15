@@ -74,7 +74,6 @@ from datetime import datetime
 import yaml
 from netmiko import ConnectHandler
 import logging
-import os
 
 
 logging.getLogger("paramiko").setLevel(logging.WARNING)
@@ -82,7 +81,6 @@ logging.getLogger("paramiko").setLevel(logging.WARNING)
 logging.basicConfig(
     format='%(threadName)s %(name)s %(levelname)s: %(message)s',
     level=logging.INFO)
-
 
 
 r1_params = {'ip': '192.168.100.1',
@@ -148,28 +146,18 @@ class CiscoTelnet:
         parsing result of command_output (with TextFSM)
         :return:  a list jf dictionaries
         """
-
         result = []
-        # ip = device_dict['ip']
-        vendor = 'cisco_ios' # device_dict['device_type']
+        vendor = 'cisco_ios'
 
         attributes = {'Command': command, 'Vendor': vendor}
         cli_table = clitable.CliTable('index', templates_path)
         cli_table.ParseCmd(command_output, attributes)
-
-        # Some variants for print parsed command output
-        # print('CLI Table output:\n', cli_table)
-
-        # print('Formatted Table:\n', cli_table.FormattedTable())
-
         header = list(cli_table.header)
-
         for item in cli_table:
             result_dict = dict(zip(header, item))
             result.append(result_dict)
 
         return result
-
 
     def close(self):
         self.telnet.close()
@@ -177,27 +165,6 @@ class CiscoTelnet:
     def check_errors(self, command_output):
         if 'Invalid input detected' in command_output:
             raise ValueError("Возникла ошибка Invalid input detected")
-
-    def config_mode(self):
-        self.telnet.write(b'conf t\n')
-        time.sleep(0.5)
-        return self.telnet.read_very_eager().decode('ascii')
-
-    def exit_config_mode(self):
-        self.telnet.write(b'end\n')
-        time.sleep(0.5)
-        return self.telnet.read_very_eager().decode('ascii')
-
-    def send_config_commands(self, commands):
-        # if type(commands) == str:
-        #    commands = [commands]
-        output = self.config_mode()
-        for command in commands:
-            self.telnet.write(command.encode('ascii') + b'\n')
-            time.sleep(0.2)
-        output += self.telnet.read_very_eager().decode('ascii')
-        output += self.exit_config_mode()
-        return output
 
     def _write_line(self, line_for_send):
         """
@@ -211,5 +178,3 @@ class CiscoTelnet:
 if __name__ == '__main__':
     r1 = CiscoTelnet(**r1_params)
     pprint(r1.send_show_command('sh ip int br', templates='templates', parse=True))
-    # print(r1.send_show_command('sh ip int br', parse=True))
-
