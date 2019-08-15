@@ -67,12 +67,9 @@ Out[5]:
 """
 import telnetlib
 import time
-from pprint import pprint
 from textfsm import clitable
 from pprint import pprint
 from datetime import datetime
-import yaml
-from netmiko import ConnectHandler
 import logging
 
 
