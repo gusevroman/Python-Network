@@ -31,12 +31,9 @@ Out[6]: 'conf t\r\nEnter configuration commands, one per line.  End with CNTL/Z.
 '''
 import telnetlib
 import time
-from pprint import pprint
 from textfsm import clitable
 from pprint import pprint
 from datetime import datetime
-import yaml
-from netmiko import ConnectHandler
 import logging
 
 
