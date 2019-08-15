@@ -46,14 +46,17 @@ class CiscoTelnet:
         self.ip = ip
         self.telnet = telnetlib.Telnet(ip)
         self.telnet.read_until(b'Username:')
-        self.telnet.write(username.encode('ascii') + b'\n')
+        # self.telnet.write(username.encode('ascii') + b'\n')
+        self._write_line(username)
 
         self.telnet.read_until(b'Password:')
-        self.telnet.write(password.encode('ascii') + b'\n')
+        # self.telnet.write(password.encode('ascii') + b'\n')
+        self._write_line(password)
         if secret:
             self.telnet.write(b'enable\n')
             self.telnet.read_until(b'Password:')
-            self.telnet.write(secret.encode('ascii') + b'\n')
+            # self.telnet.write(secret.encode('ascii') + b'\n')
+            self._write_line(secret)
         if disable_paging:
             self.telnet.write(b'terminal length 0\n')
         time.sleep(0.5)
@@ -78,16 +81,6 @@ class CiscoTelnet:
         if 'Invalid input detected' in command_output:
             raise ValueError("Возникла ошибка Invalid input detected")
 
-    def config_mode(self):
-        self.telnet.write(b'conf t\n')
-        time.sleep(0.5)
-        return self.telnet.read_very_eager().decode('ascii')
-
-    def exit_config_mode(self):
-        self.telnet.write(b'end\n')
-        time.sleep(0.5)
-        return self.telnet.read_very_eager().decode('ascii')
-
     def _write_line(self, line_for_send):
         """
         the method takes a string as an argument and sends the string converted to bytes to the device and adds the
@@ -100,3 +93,5 @@ class CiscoTelnet:
 if __name__ == '__main__':
     r1 = CiscoTelnet(**r1_params)
     print(r1.send_show_command('sh ip int br'))
+    # print(r1.config_mode())
+    # r1.close()
