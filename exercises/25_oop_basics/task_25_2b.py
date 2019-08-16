@@ -159,4 +159,4 @@ class CiscoTelnet:
 
 if __name__ == '__main__':
     r1 = CiscoTelnet(**r1_params)
-    pprint(r1.send_config_commands(['interface loop55', 'ip address 5.5.5.5 255.255.255.255']))
+    print(r1.send_config_commands(['interface loop55', 'ip address 5.5.5.5 255.255.255.255']))
