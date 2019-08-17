@@ -42,6 +42,8 @@ Cоединение с одним из портов существует
 
 
 '''
+from pprint import pprint
+
 
 topology_example = {('R1', 'Eth0/0'): ('SW1', 'Eth0/1'),
                     ('R2', 'Eth0/0'): ('SW1', 'Eth0/2'),
@@ -53,3 +55,52 @@ topology_example = {('R1', 'Eth0/0'): ('SW1', 'Eth0/1'),
                     ('SW1', 'Eth0/2'): ('R2', 'Eth0/0'),
                     ('SW1', 'Eth0/3'): ('R3', 'Eth0/0')}
 
+
+class Topology:
+    def __init__(self, topology_dict):
+        self.topology = self._normalize(topology_dict)
+
+    def _normalize(self, topology_dict):
+        topology = {}
+        for l_device, r_device in topology_dict.items():
+            if r_device not in topology:
+                topology[l_device] = r_device
+        return topology
+
+    def delete_link(self, link1, link2):
+        if (link1, link2) in self.topology.items():
+            del(self.topology[link1])
+        elif (link2, link1) in self.topology.items():
+            del(self.topology[link2])
+        else:
+            print('Такого соединения нет ')
+        # return self.topology
+
+    def delete_node(self, node):
+        ports_with_node = {}
+        for src, dst in self.topology.items():
+            if node not in src and node not in dst:
+                ports_with_node[src] = dst
+        if len(ports_with_node) == len(self.topology):
+            print('Такого устройства нет')
+        else:
+            self.topology = ports_with_node
+
+    def add_link(self, link_1, link_2):
+        if (link_1, link_2) in self.topology.items():
+            print('Такое соединение существует')
+        elif (link_2, link_1) in self.topology.items():
+            print('Такое соединение существует!')
+        elif link_1 in self.topology.keys() or link_2 in self.topology.keys():
+            print('Cоединение с одним из портов существует')
+        elif link_1 in self.topology.values() or link_2 in self.topology.values():
+            print('Cоединение с одним из портов существует!')
+        else:
+            self.topology[link_1] = link_2
+
+
+if __name__ == '__main__':
+    top = Topology(topology_example)
+    pprint(top.topology)
+    top.add_link(('SW1', 'Eth0/1'), ('R19', 'Eth0/0'))
+    pprint(top.topology)
