@@ -52,7 +52,7 @@ class MyNetmiko(CiscoIosBase):
         super().__init__(**device_params)
         self.enable()
 
-    def _check_error_in_command(self, command_output, **device_params):
+    def _check_error_in_command(self, command_output):
         if ('Invalid input detected' or 'Incomplete command' or 'Ambiguous command') in command_output:
             raise ErrorInCommand("Возникла ошибка Invalid input detected")
 
