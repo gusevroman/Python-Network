@@ -133,6 +133,3 @@ if __name__ == '__main__':
     # pprint(t2.topology)
     t3 = t1 + t2
     pprint(t3.topology)
-
-
-
