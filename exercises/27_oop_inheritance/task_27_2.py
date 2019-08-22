@@ -39,3 +39,5 @@ class MyNetmiko(CiscoIosBase):
 if __name__ == '__main__':
     r1 = MyNetmiko(**device_params)
     r1.send_command('sh ip int br')
+
+# Все отлично

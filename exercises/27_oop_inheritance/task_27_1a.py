@@ -35,17 +35,52 @@ device_params = {
 
 
 class CiscoSSH(BaseSSH):
-    if 'username' not in device_params.keys():
-        device_params['username'] = input('Введите имя пользователя: ')
-    if 'password' not in device_params.keys():
-        device_params['password'] = input('Введите пароль: ')
-    if 'secret' not in device_params.keys():
-        device_params['secret'] = input('Введите пароль для режима enable: ')
-
     def __init__(self, disable_paging=True, **device_params):
+        if 'username' not in device_params.keys():
+            device_params['username'] = input('Введите имя пользователя: ')
+        if 'password' not in device_params.keys():
+            device_params['password'] = input('Введите пароль: ')
+        if 'secret' not in device_params.keys():
+            device_params['secret'] = input('Введите пароль для режима enable: ')
         super().__init__(**device_params)
+
 
 
 if __name__ == '__main__':
     r1 = CiscoSSH(**device_params)
     r1.send_show_command('sh ip int br')
+
+# Все отлично
+# только лучше этот код поместить в __init__
+
+# вариант решения
+
+from base_connect_class import BaseSSH
+from getpass import getpass
+
+class CiscoSSH(BaseSSH):
+    def __init__(self, **device_params):
+        params = {'username': 'Введите имя пользователя: ',
+                  'password': 'Введите пароль: ',
+                  'secret': 'Введите пароль для режима enable: '}
+        for param in params:
+            if not param in device_params:
+                if param == 'username':
+                    device_params['username'] = input(params[param])
+                else:
+                    device_params[param] = getpass(params[param])
+        super().__init__(**device_params)
+        self.ssh.enable()
+
+# еще один вариант
+class CiscoSSH(BaseSSH):
+    def __init__(self, **device_params):
+        params = {'username': (input, 'Введите имя пользователя: '),
+                  'password': (getpass, 'Введите пароль: '),
+                  'secret': (getpass, 'Введите пароль для режима enable: ')}
+        for param in params:
+            if not param in device_params:
+                function, question = params[param]
+                device_params[param] = function(question)
+        super().__init__(**device_params)
+        self.ssh.enable()

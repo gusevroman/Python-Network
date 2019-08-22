@@ -36,3 +36,15 @@ class CiscoSSH(BaseSSH):
 if __name__ == '__main__':
     r1 = CiscoSSH(**device_params)
     r1.send_show_command('sh ip int br')
+
+# Все отлично
+# только по заданию надо было еще в enable режим перейти
+
+# вариант решения
+
+from base_connect_class import BaseSSH
+
+class CiscoSSH(BaseSSH):
+    def __init__(self, **device_params):
+        super().__init__(**device_params)
+        self.ssh.enable()
