@@ -133,3 +133,29 @@ if __name__ == '__main__':
     # pprint(t2.topology)
     t3 = t1 + t2
     pprint(t3.topology)
+
+
+# Все отлично
+
+# вариант решения
+
+class Topology:
+    def __init__(self, topology_dict):
+        self.topology = self._normalize(topology_dict)
+
+    def _normalize(self, topology_dict):
+        normalized_topology = {}
+        for box, neighbor in topology_dict.items():
+            if not neighbor in normalized_topology:
+                normalized_topology[box] = neighbor
+        return normalized_topology
+
+    def __add__(self, other):
+        copy_topology = self.topology.copy()
+        copy_topology.update(other.topology)
+        return Topology(copy_topology)
+
+    # еще один вариант
+    def __add__(self, other):
+        return Topology({**self.topology, **other.topology})
+

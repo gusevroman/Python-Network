@@ -100,3 +100,6 @@ if __name__ == '__main__':
     t1 = Topology(topology_example)
     for link in t1:
         print(link)
+
+# Все отлично
+

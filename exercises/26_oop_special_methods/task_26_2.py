@@ -181,3 +181,6 @@ if __name__ == '__main__':
     with CiscoTelnet(**r1_params) as connect_to_router:
         print(connect_to_router.send_show_command('sh ip int br', 'templates'))
 
+
+
+# Все отлично
